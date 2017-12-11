@@ -2,7 +2,9 @@ module.exports = {
     entry: "./src/index.ts",
     output: {
         path: __dirname,
-        filename: "./dist/bundle.js"
+        filename: "./dist/elysian.js",
+        library: 'elysian',
+        libraryTarget: 'umd'
     },
     resolve: {
         // Add '.ts' and '.tsx' as a resolvable extension.

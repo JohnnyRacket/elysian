@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test Canvas</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #aaa; display: block; margin: 0 auto; height: 100%; width: 100%;}
+        html, body { height: 100%; width: 100%;}
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<script src="../dist/elysian.js"></script>
+<script>
+    elysian.default.create("myCanvas");
+    elysian.default.GameEngine.register( new elysian.default.GameObjects.ActiveObject(100,100,50,50,0,'test'));
+</script>
+
+</body>
+</html>

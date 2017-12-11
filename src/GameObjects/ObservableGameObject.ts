@@ -3,7 +3,6 @@ import { IObserver } from '../Observables/Observer.interface';
 import { Observable } from '../Observables/Observable';
 import { IGameObject } from './GameObject.interface';
 import { IObservable } from '../Observables/Observable.interface';
-import array = require('lodash/array');
 
 
 export abstract class ObservableGameObject extends Dimensionable implements IGameObject, IObservable{
@@ -18,7 +17,9 @@ export abstract class ObservableGameObject extends Dimensionable implements IGam
             this.observers.push(obj);
         }
         unregister(obj: IObserver) {
-            array.pull(this.observers, obj);
+            this.observers = this.observers.filter( observer => {
+                if(observer != obj) return observer;
+            });
         }
         updateObservers() {
             this.observers.forEach((obj: IObserver, index) => obj.update());

@@ -1,6 +1,5 @@
 import { ReferenceManager } from './ReferenceManager';
 import { IViewService } from './IViewService';
-import array = require('lodash/array');
 import { IViewObject } from '../ViewObjects/ViewObject.interface';
 
 export class RenderEngine{
@@ -84,7 +83,9 @@ export class RenderEngine{
     * unregister a view object to be updated by the game engine
     */
     public unregister(obj: IViewObject){
-        array.pull(this.observers, obj);
+        this.observers = this.observers.filter( observer => {
+            if(observer != obj) return observer;
+        });
         this.observers.forEach(observer => {
             observer.remove(obj);
         })

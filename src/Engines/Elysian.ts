@@ -18,8 +18,8 @@ export class Elysian{
           return Elysian._instance;
       }
 
-      public create(){
-        const canvas : HTMLCanvasElement = <HTMLCanvasElement> document.getElementById("myCanvas");
+      public create(canvasId: string){
+        const canvas : HTMLCanvasElement = <HTMLCanvasElement> document.getElementById(canvasId);
         const context: CanvasRenderingContext2D = canvas.getContext("2d");
         canvas.height = window.innerHeight;
         canvas.width = window.innerWidth;

@@ -1,4 +1,3 @@
-import array = require('lodash/array');
 import { IObservable } from "./Observable.interface";
 import { IObserver } from "./Observer.interface";
 
@@ -10,7 +9,9 @@ export class Observable implements IObservable {
         this.observers.push(obj);
     }
     unregister(obj: IObserver) {
-        array.pull(this.observers, obj);
+        this.observers = this.observers.filter( observer => {
+            if(observer != obj) return observer;
+        });
     }
     updateObservers() {
         this.observers.forEach((obj: IObserver, index) => obj.update());

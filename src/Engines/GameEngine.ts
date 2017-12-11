@@ -1,6 +1,5 @@
 import { IModelService } from './IModelService';
 import { ReferenceManager } from './ReferenceManager';
-import array = require('lodash/array');
 import { IGameObject } from '../GameObjects/GameObject.interface';
 
 /*
@@ -83,7 +82,9 @@ export class GameEngine{
      */
     public unregister(obj: IGameObject){
         obj.dispose();
-        array.pull(this.observers, obj);
+        this.observers = this.observers.filter( observer => {
+            if(observer != obj) return observer;
+        });
         
         this.services.forEach(service => {
             service.remove(obj);
