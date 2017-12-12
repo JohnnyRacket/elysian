@@ -3,26 +3,13 @@ import { GameEngine } from "./GameEngine";
 import { CollisionManager } from "./CollisionManager";
 import { ClickableManager } from "./ClickableManager";
 
-export class Elysian{
-    private static _instance: Elysian = new Elysian();
-    
-      private constructor() {
-          if(Elysian._instance){
-              throw new Error("Error: Instantiation failed: Use Elysian.getInstance() instead of new.");
-          }
-          Elysian._instance = this;
-      }
-   
-      public static getInstance(): Elysian
-      {
-          return Elysian._instance;
-      }
+export class Bootstrap{
 
-      public create(canvasId: string){
+      public static create(canvasId: string, width: number, height: number){
         const canvas : HTMLCanvasElement = <HTMLCanvasElement> document.getElementById(canvasId);
         const context: CanvasRenderingContext2D = canvas.getContext("2d");
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
+        canvas.height = height;
+        canvas.width = width;
         
         const gameEngine = GameEngine.getInstance();
         const renderEngine = RenderEngine.getInstance();
@@ -32,15 +19,17 @@ export class Elysian{
         const clickableManager = ClickableManager.getInstance();
         clickableManager.canvas = canvas;
         
-        let scale = 0;
+        let scale = 1;
         function resize(){
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-            let yScale = canvas.height/480;
-            let xScale = canvas.width/320;
-            scale = (xScale <= yScale)? xScale : yScale;
-            context.scale(scale, scale);
-            renderEngine.scale = scale;
+            //  if(window.innerHeight < height ) canvas.height = window.innerHeight;
+            //  else canvas.height = height;
+            //  if(window.innerWidth < width) canvas.width = window.innerWidth;
+            //  else canvas.width = width;
+            // let yScale = canvas.height/height;
+            // let xScale = canvas.width/width;
+            // scale = (xScale <= yScale)? xScale : yScale;
+            // context.scale(scale, scale);
+            // renderEngine.scale = scale;
         }
         resize();
         

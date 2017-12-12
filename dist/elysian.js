@@ -631,7 +631,7 @@ var DebugViewObject = /** @class */ (function (_super) {
         var _this = _super.call(this, x, y, width, height, angle, strategy, null, null) || this;
         _this._clickAction = function () { };
         _this.subject = subject;
-        _this.color = "pink";
+        _this.color = "#FF1493";
         return _this;
     }
     DebugViewObject.prototype.hover = function () {
@@ -845,7 +845,6 @@ exports.Hitbox = Hitbox;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var GameEngine_1 = __webpack_require__(1);
 var RenderEngine_1 = __webpack_require__(0);
 var CollisionManager_1 = __webpack_require__(2);
@@ -853,8 +852,8 @@ var ClickableManager_1 = __webpack_require__(4);
 var ActiveObject_1 = __webpack_require__(13);
 var BackgroundObject_1 = __webpack_require__(18);
 var TextViewObject_1 = __webpack_require__(19);
-var Elysian_1 = __webpack_require__(20);
-exports.default = {
+var Bootstrap_1 = __webpack_require__(20);
+var Elysian = {
     GameEngine: GameEngine_1.GameEngine.getInstance(),
     RenderEngine: RenderEngine_1.RenderEngine.getInstance(),
     CollisionManager: CollisionManager_1.CollisionManager.getInstance(),
@@ -866,9 +865,10 @@ exports.default = {
     ViewObjects: {
         TextViewObject: TextViewObject_1.TextViewObject
     },
-    create: Elysian_1.Elysian.getInstance().create
+    create: Bootstrap_1.Bootstrap.create
     //more to come soon
 };
+module.exports = Elysian;
 
 
 /***/ }),
@@ -1098,6 +1098,28 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DoubleBufferedViewObject.prototype, "width", {
+        get: function () {
+            return this._width;
+        },
+        set: function (width) {
+            this._width = width;
+            this.canvas.width = width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DoubleBufferedViewObject.prototype, "height", {
+        get: function () {
+            return this._height;
+        },
+        set: function (height) {
+            this._height = height;
+            this.canvas.height = height;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DoubleBufferedViewObject.prototype, "canvas", {
         get: function () {
             return this._canvas;
@@ -1107,7 +1129,7 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
             this.canvas.width = this.width;
             this.canvas.height = this.height;
             this.context = this.canvas.getContext('2d');
-            this.preRender();
+            console.log("Setting Canvas is not reccomended, you should instead access the context");
         },
         enumerable: true,
         configurable: true
@@ -1380,35 +1402,30 @@ var RenderEngine_1 = __webpack_require__(0);
 var GameEngine_1 = __webpack_require__(1);
 var CollisionManager_1 = __webpack_require__(2);
 var ClickableManager_1 = __webpack_require__(4);
-var Elysian = /** @class */ (function () {
-    function Elysian() {
-        if (Elysian._instance) {
-            throw new Error("Error: Instantiation failed: Use Elysian.getInstance() instead of new.");
-        }
-        Elysian._instance = this;
+var Bootstrap = /** @class */ (function () {
+    function Bootstrap() {
     }
-    Elysian.getInstance = function () {
-        return Elysian._instance;
-    };
-    Elysian.prototype.create = function (canvasId) {
+    Bootstrap.create = function (canvasId, width, height) {
         var canvas = document.getElementById(canvasId);
         var context = canvas.getContext("2d");
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
+        canvas.height = height;
+        canvas.width = width;
         var gameEngine = GameEngine_1.GameEngine.getInstance();
         var renderEngine = RenderEngine_1.RenderEngine.getInstance();
         var collisionManager = CollisionManager_1.CollisionManager.getInstance();
         var clickableManager = ClickableManager_1.ClickableManager.getInstance();
         clickableManager.canvas = canvas;
-        var scale = 0;
+        var scale = 1;
         function resize() {
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-            var yScale = canvas.height / 480;
-            var xScale = canvas.width / 320;
-            scale = (xScale <= yScale) ? xScale : yScale;
-            context.scale(scale, scale);
-            renderEngine.scale = scale;
+            //  if(window.innerHeight < height ) canvas.height = window.innerHeight;
+            //  else canvas.height = height;
+            //  if(window.innerWidth < width) canvas.width = window.innerWidth;
+            //  else canvas.width = width;
+            // let yScale = canvas.height/height;
+            // let xScale = canvas.width/width;
+            // scale = (xScale <= yScale)? xScale : yScale;
+            // context.scale(scale, scale);
+            // renderEngine.scale = scale;
         }
         resize();
         window.addEventListener('resize', resize);
@@ -1419,10 +1436,9 @@ var Elysian = /** @class */ (function () {
         renderEngine.start();
         gameEngine.start();
     };
-    Elysian._instance = new Elysian();
-    return Elysian;
+    return Bootstrap;
 }());
-exports.Elysian = Elysian;
+exports.Bootstrap = Bootstrap;
 
 
 /***/ })

@@ -1,0 +1,1 @@
+{"version":3,"file":"MapObject.js","sourceRoot":"","sources":["../../../src/GameObjects/MapObject.ts"],"names":[],"mappings":";;AACA;IAII,mBAAmB,MAA8B,EAAE,IAAY;QAC3D,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACrB,CAAC;IACL,gBAAC;AAAD,CAAC,AARD,IAQC;AARY,8BAAS"}

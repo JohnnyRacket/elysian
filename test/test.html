@@ -5,7 +5,7 @@
     <title>Test Canvas</title>
     <style>
     	* { padding: 0; margin: 0; }
-    	canvas { background: #aaa; display: block; margin: 0 auto; height: 100%; width: 100%;}
+    	canvas { background: #aaa; display: block; margin: 0 auto; height: 200px; width: 900px;}
         html, body { height: 100%; width: 100%;}
     </style>
 </head>
@@ -15,8 +15,31 @@
 
 <script src="../dist/elysian.js"></script>
 <script>
-    elysian.default.create("myCanvas");
-    elysian.default.GameEngine.register( new elysian.default.GameObjects.ActiveObject(100,100,50,50,0,'test'));
+    elysian.create("myCanvas", 900, 200);
+    var obj =  new elysian.GameObjects.ActiveObject(512,64,1024,128,0,'test');
+    elysian.GameEngine.register(obj);
+    var context = obj.viewObject.context;
+    context.webkitImageSmoothingEnabled = false;
+context.mozImageSmoothingEnabled = false;
+context.imageSmoothingEnabled = false; /// future
+    var drawing = new Image();
+    drawing.src = "backdrop.png"
+    drawing.onload = function() {
+        context.drawImage(drawing, 0, 0, 1024, 128);
+    
+      };
+
+    //   var canvas = document.createElement('canvas');
+    //   obj.viewObject.canvas = canvas;
+    //   console.log(canvas);
+      
+    //   context.moveTo(0,0);
+    //   context.rect(0,0,100,100);
+    //   context.fillStyle = "red";
+    //   context.fill();
+      
+    //   console.log(canvas);
+    
 </script>
 
 </body>

@@ -21,6 +21,23 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
         this._drawingStrategy = strategy;
     }
 
+    protected _width: number;
+    get width(): number{
+        return this._width;
+    }
+    set width(width: number){
+        this._width = width;
+        this.canvas.width = width;
+    }
+    protected _height: number;
+    get height(): number{
+        return this._height;
+    }
+    set height(height: number){
+        this._height = height;
+        this.canvas.height = height;
+    }
+
     protected _canvas: HTMLCanvasElement;
     public get canvas(): HTMLCanvasElement{
         return this._canvas;
@@ -30,7 +47,7 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.context = this.canvas.getContext('2d');
-        this.preRender();
+        console.log("Setting Canvas is not reccomended, you should instead access the context");
     }
 
     protected _context: CanvasRenderingContext2D;

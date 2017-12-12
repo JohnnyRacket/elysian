@@ -5,9 +5,9 @@ import { ClickableManager } from "./Engines/ClickableManager";
 import { ActiveObject } from "./ExposedObjects/ActiveObject";
 import { BackgroundObject } from "./ExposedObjects/BackgroundObject";
 import { TextViewObject} from "./ExposedObjects/TextViewObject";
-import { Elysian } from "./Engines/Elysian";
+import { Bootstrap } from "./Engines/Bootstrap";
 
-export default {
+let Elysian = {
     GameEngine: GameEngine.getInstance(),
     RenderEngine: RenderEngine.getInstance(),
     CollisionManager: CollisionManager.getInstance(),
@@ -22,10 +22,13 @@ export default {
         TextViewObject: TextViewObject
     },
 
-    create: Elysian.getInstance().create
+    create: Bootstrap.create
 
     //more to come soon
 }
+
+export = Elysian;
+
 
 
 

@@ -33,7 +33,7 @@ export class DebugViewObject extends ClickableViewObject{
     public constructor(x: number, y: number, width: number, height: number, angle: number, subject: Dimensionable, strategy: DrawingStrategy){
         super(x,y,width,height,angle, strategy,null,null);
         this.subject = subject;
-        this.color = "pink";
+        this.color = "#FF1493";
     }
 
     protected preRender() {
