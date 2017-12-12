@@ -1104,7 +1104,8 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
         },
         set: function (width) {
             this._width = width;
-            this.canvas.width = width;
+            if (this.canvas)
+                this.canvas.width = width;
         },
         enumerable: true,
         configurable: true
@@ -1115,7 +1116,8 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
         },
         set: function (height) {
             this._height = height;
-            this.canvas.height = height;
+            if (this.canvas)
+                this.canvas.height = height;
         },
         enumerable: true,
         configurable: true

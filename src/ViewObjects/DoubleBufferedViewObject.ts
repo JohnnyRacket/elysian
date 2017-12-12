@@ -27,7 +27,7 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
     }
     set width(width: number){
         this._width = width;
-        this.canvas.width = width;
+        if(this.canvas) this.canvas.width = width;
     }
     protected _height: number;
     get height(): number{
@@ -35,7 +35,7 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
     }
     set height(height: number){
         this._height = height;
-        this.canvas.height = height;
+        if(this.canvas) this.canvas.height = height;
     }
 
     protected _canvas: HTMLCanvasElement;
