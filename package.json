@@ -1,9 +1,22 @@
 {
   "name": "elysian",
-  "version": "1.0",
-  "dependencies": {
+  "version": "0.1.1",
+  "description": "A lightweight HTML5 Canvas/JS game engine made in TypeScript",
+  "main": "dist/elysian.js",
+  "author": "John Harrison",
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "repository": {
+    "type": "git",
+    "url": "git+https://photonstorm@github.com/johnnyracket/elysian.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
     "ts-loader": "^2.2.2",
     "typescript": "^2.4.1",
     "webpack": "^3.1.0"
+  },
+  "scripts": {
+    "build": "webpack"
   }
 }
