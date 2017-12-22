@@ -19,7 +19,7 @@ export class InputMapper implements IViewService{
     
       private constructor() {
           if(InputMapper._instance){
-              throw new Error("Error: Instantiation failed: Use ClickableManager.getInstance() instead of new.");
+              throw new Error("Error: Instantiation failed: Use InputMaapper.getInstance() instead of new.");
           }
           InputMapper._instance = this;
           //this.register(this.collisionManager);
