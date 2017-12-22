@@ -1,4 +1,10 @@
 import { DrawingStrategy } from './DrawingStrategy';
+
+/* 
+    This class draws an object from center, i.e. if you draw something at position 0,0 then that
+    is where the center of the image will be, and you would only see the bottom-right quadrant on screen.
+*/
+
 export class CenterDrawingStrategy implements DrawingStrategy{
     calculateGlobalPositionXEffect(width: number): number {
         return width/2 * -1;

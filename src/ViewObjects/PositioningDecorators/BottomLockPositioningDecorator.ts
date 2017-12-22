@@ -1,4 +1,4 @@
-import { ClickableViewObject } from '../../MenuViewObjects/ClickableViewObject';
+import { ClickableViewObject } from '../../ViewObjects/ClickableViewObject';
 import { PositioningDecorator } from "./PositioningDecorator";
 
 export class BottomLockPositioningDecorator extends PositioningDecorator {
@@ -13,14 +13,14 @@ export class BottomLockPositioningDecorator extends PositioningDecorator {
         hover() {
             //do nothing
         }
-        protected preRender() {
+        protected render() {
             //do nothing
         }
     
-        render(context: CanvasRenderingContext2D, width: number, height: number) {
+        draw(context: CanvasRenderingContext2D, width: number, height: number) {
             this.offsetY = height - this.height - this.padding;
             this.view.y = this.offsetY;
-            this.view.render(context, width, height);
+            this.view.draw(context, width, height);
         }
         update() {
             throw new Error("Method not implemented.");

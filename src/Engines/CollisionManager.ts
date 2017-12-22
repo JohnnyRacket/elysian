@@ -1,6 +1,6 @@
 import { Hitbox } from '../Collisions/Hitbox';
 import { CollidableGameObject } from '../GameObjects/CollidableGameObject';
-import { IGameObject } from '../GameObjects/GameObject.interface';
+import { IGameObject } from '../GameObjects/IGameObject';
 import { IModelService } from "./IModelService";
 
 export class CollisionManager implements IModelService{

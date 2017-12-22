@@ -1,8 +1,8 @@
 import { Dimensionable } from '../Shared/Dimensionable';
-import { IObserver } from '../Observables/Observer.interface';
+import { IObserver } from '../Observables/IObserver';
 import { Observable } from '../Observables/Observable';
-import { IGameObject } from './GameObject.interface';
-import { IObservable } from '../Observables/Observable.interface';
+import { IGameObject } from './IGameObject';
+import { IObservable } from '../Observables/IObservable';
 
 
 export abstract class ObservableGameObject extends Dimensionable implements IGameObject, IObservable{

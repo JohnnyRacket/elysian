@@ -1,7 +1,7 @@
 import { ComposableViewObject } from './ComposableViewObject';
 import { Dimensionable } from '../Shared/Dimensionable';
 import { DrawingStrategy } from '../DrawingStrategies/DrawingStrategy';
-import { IViewObject } from './ViewObject.interface';
+import { IViewObject } from './IViewObject';
 
 export abstract class DoubleBufferedViewObject extends ComposableViewObject{
 
@@ -70,12 +70,12 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
         this.canvas.width = width;
         this.canvas.height = height;
         this.context = this.canvas.getContext('2d');
-        this.preRender();
+        this.render();
     }
 
-    protected abstract preRender();
+    protected abstract render();
 
-    public render(context: CanvasRenderingContext2D, width: number, height: number){
+    public draw(context: CanvasRenderingContext2D, width: number, height: number){
 
         context.save();
 
@@ -86,13 +86,9 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
         this.drawingStrategy.draw(context, this.canvas, this.x, this.y, this.width, this.height);
 
         context.restore();
-        this.postRender();
     }
         
     abstract update();
-    public postRender(){
-        //do nothing
-    }
 
     public globalX(): number{
         if(this.parent){

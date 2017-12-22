@@ -1,4 +1,4 @@
-import { IGameObject } from '../GameObjects/GameObject.interface';
+import { IGameObject } from '../GameObjects/IGameObject';
 import { Dimensionable } from '../Shared/Dimensionable';
 export class RelativeArea extends Dimensionable implements IGameObject{
     dispose(): void {

@@ -1,5 +1,5 @@
 import { CollidableGameObject } from "../GameObjects/CollidableGameObject";
-import { ClickableViewObject } from "../MenuViewObjects/ClickableViewObject";
+import { ClickableViewObject } from "../ViewObjects/ClickableViewObject";
 import { DebugViewObject } from "../ViewObjects/DebugViewObject";
 import { CenterDrawingStrategy } from "../DrawingStrategies/CenterDrawingStrategy";
 import { GameEngine } from "../Engines/GameEngine";

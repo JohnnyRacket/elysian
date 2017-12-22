@@ -1,4 +1,4 @@
-import { ClickableViewObject } from '../../MenuViewObjects/ClickableViewObject';
+import { ClickableViewObject } from '../../ViewObjects/ClickableViewObject';
 import { Clickable } from '../../Clickables/Clickable';
 import { ComposableViewObject } from '../../ViewObjects/ComposableViewObject';
 export abstract class PositioningDecorator extends ClickableViewObject {
@@ -31,7 +31,7 @@ export abstract class PositioningDecorator extends ClickableViewObject {
     }
 
     public constructor(view: ClickableViewObject){
-        super(view.x,view.y,view.width,view.y,view.angle,view.drawingStrategy,view.clickStrategy, view.callback);
+        super(view.x,view.y,view.width,view.y,view.angle,view.drawingStrategy,view.callback);
         this.view = view;
         this.x = view.x;
         this.y = view.y;

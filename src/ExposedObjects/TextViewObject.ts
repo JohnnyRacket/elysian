@@ -1,4 +1,4 @@
-import { ClickableViewObject } from "../MenuViewObjects/ClickableViewObject";
+import { ClickableViewObject } from "../ViewObjects/ClickableViewObject";
 import { DrawingStrategy } from "../DrawingStrategies/DrawingStrategy";
 
 export class TextViewObject extends ClickableViewObject{
@@ -11,7 +11,7 @@ export class TextViewObject extends ClickableViewObject{
     }
     public set text(text: string){
         this._text = text;
-        this.preRender();
+        this.render();
     }
     protected _font: string;
     public get font (): string {
@@ -19,7 +19,7 @@ export class TextViewObject extends ClickableViewObject{
     }
     public set font(font: string){
         this._font = font;
-        this.preRender();
+        this.render();
     }
     protected _color: string;
     public get color(): string{
@@ -27,7 +27,7 @@ export class TextViewObject extends ClickableViewObject{
     }
     public set color(color: string){
         this._color = color;
-        this.preRender();
+        this.render();
     }
     protected _backgroundColor: string
     public get backgroundColor(): string{
@@ -35,19 +35,15 @@ export class TextViewObject extends ClickableViewObject{
     }
     public set backgroundColor(backgroundColor: string){
         this._backgroundColor = backgroundColor;
-        this.preRender();
+        this.render();
     }
     public constructor(x: number,y: number, width: number, height: number, angle: number,  text: string, drawingStratgegy: DrawingStrategy, callback: Function){
-        super(x,y,width,height,angle,drawingStratgegy,null,callback);
+        super(x,y,width,height,angle,drawingStratgegy,callback);
         this.text = text;
-        this.preRender();
+        this.render();
     } 
 
-    hover() {
-        throw new Error("Method not implemented.");
-    }
-
-    protected preRender() {
+    protected render() {
         this.context.beginPath();
         this.context.clearRect(0,0,this.width,this.height); 
 

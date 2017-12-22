@@ -1,4 +1,4 @@
-import { IViewObject } from '../../ViewObjects/ViewObject.interface';
+import { IViewObject } from '../../ViewObjects/IViewObject';
 import { ComposableViewObject } from '../../ViewObjects/ComposableViewObject';
 import { ComposableView } from '../ComposableView';
 export abstract class ComposableViewDecorator extends ComposableView {

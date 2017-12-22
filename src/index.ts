@@ -6,6 +6,7 @@ import { ActiveObject } from "./ExposedObjects/ActiveObject";
 import { BackgroundObject } from "./ExposedObjects/BackgroundObject";
 import { TextViewObject} from "./ExposedObjects/TextViewObject";
 import { Bootstrap } from "./Engines/Bootstrap";
+import { ImageViewObject } from "./ExposedObjects/ImageViewObject";
 
 let Elysian = {
     GameEngine: GameEngine.getInstance(),
@@ -19,7 +20,8 @@ let Elysian = {
     },
 
     ViewObjects: {
-        TextViewObject: TextViewObject
+        TextViewObject: TextViewObject,
+        ImageViewObject: ImageViewObject
     },
 
     create: Bootstrap.create

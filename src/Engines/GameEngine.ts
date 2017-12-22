@@ -1,6 +1,6 @@
 import { IModelService } from './IModelService';
 import { ReferenceManager } from './ReferenceManager';
-import { IGameObject } from '../GameObjects/GameObject.interface';
+import { IGameObject } from '../GameObjects/IGameObject';
 
 /*
 * This class is a Singleton

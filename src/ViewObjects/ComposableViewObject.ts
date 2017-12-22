@@ -1,5 +1,5 @@
 import { RenderEngine } from '../Engines/RenderEngine';
-import { IViewObject } from './ViewObject.interface';
+import { IViewObject } from './IViewObject';
 import { Dimensionable } from "../Shared/Dimensionable";
 export abstract class ComposableViewObject extends Dimensionable implements IViewObject {
 
@@ -11,7 +11,7 @@ export abstract class ComposableViewObject extends Dimensionable implements IVie
         this._parent = parent;
     }
 
-    abstract render(context: CanvasRenderingContext2D, width: number, height: number);
+    abstract draw(context: CanvasRenderingContext2D, width: number, height: number);
     abstract update();
 
     public globalX(): number{
@@ -35,7 +35,7 @@ export abstract class ComposableViewObject extends Dimensionable implements IVie
     }
 
     public remove(object: IViewObject) {
-        //do nothing
+        //do nothing (this is a leaf object in the composition by default, override it if not)
     }
 
 }

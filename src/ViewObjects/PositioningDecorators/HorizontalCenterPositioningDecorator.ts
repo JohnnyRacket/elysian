@@ -5,14 +5,14 @@ export class HorizontalCenterPositioningDecorator extends PositioningDecorator {
     hover() {
         //do nothing
     }
-    protected preRender() {
+    protected render() {
         //do nothing
     }
 
-    render(context: CanvasRenderingContext2D, width: number, height: number) {
+    draw(context: CanvasRenderingContext2D, width: number, height: number) {
         this.offsetX = width/2 - this.width/2;
         this.view.x = this.offsetX;
-        this.view.render(context, width, height);
+        this.view.draw(context, width, height);
     }
     update() {
         throw new Error("Method not implemented.");

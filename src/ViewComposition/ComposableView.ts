@@ -1,5 +1,5 @@
 import { Dimensionable } from '../Shared/Dimensionable';
-import { IViewObject } from '../ViewObjects/ViewObject.interface';
+import { IViewObject } from '../ViewObjects/IViewObject';
 import { ComposableViewObject } from "../ViewObjects/ComposableViewObject";
 import { RenderEngine } from '../Engines/RenderEngine';
 export class ComposableView extends ComposableViewObject {
@@ -7,7 +7,7 @@ export class ComposableView extends ComposableViewObject {
     //the idea here is to have composition pattern of relative layouts 
     protected canvas: HTMLCanvasElement;
     protected context: CanvasRenderingContext2D;
-    private children: IViewObject[] = [];
+    private children: ComposableViewObject[] = [];
 
     public constructor(x: number, y: number, width: number, height: number){
         super();
@@ -21,9 +21,9 @@ export class ComposableView extends ComposableViewObject {
         this.context = this.canvas.getContext('2d');
     }
 
-    render(context: CanvasRenderingContext2D, width: number, height: number) {
+    draw(context: CanvasRenderingContext2D, width: number, height: number) {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.children.forEach((obj: IViewObject, index) => obj.render(this.context, this.canvas.width, this.canvas.height));
+        this.children.forEach((obj: IViewObject, index) => obj.draw(this.context, this.canvas.width, this.canvas.height));
         context.drawImage(this.canvas, this.x, this.y);
     }
 
@@ -37,7 +37,7 @@ export class ComposableView extends ComposableViewObject {
         this.children.push(viewObject);
     }
 
-    public remove(object: IViewObject){
+    public remove(object: ComposableViewObject){
 
         this.children = this.children.filter(element => {
             if(element != object) return element;

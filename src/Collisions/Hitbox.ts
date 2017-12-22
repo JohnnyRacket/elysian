@@ -1,6 +1,6 @@
 import { GameEngine } from '../Engines/GameEngine';
 import { CollidableGameObject } from '../GameObjects/CollidableGameObject';
-import { IObserver } from '../Observables/Observer.interface';
+import { IObserver } from '../Observables/IObserver';
 
 export class Hitbox{
     

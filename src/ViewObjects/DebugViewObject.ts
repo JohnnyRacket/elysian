@@ -1,7 +1,7 @@
 import { Dimensionable } from './../Shared/Dimensionable';
 import { DoubleBufferedViewObject } from './DoubleBufferedViewObject';
 import { DrawingStrategy } from './../DrawingStrategies/DrawingStrategy';
-import { ClickableViewObject } from '../MenuViewObjects/ClickableViewObject';
+import { ClickableViewObject } from '../ViewObjects/ClickableViewObject';
 export class DebugViewObject extends ClickableViewObject{
     hover() {
         throw new Error("Method not implemented.");
@@ -20,7 +20,7 @@ export class DebugViewObject extends ClickableViewObject{
     }
     set color(color: string){
         this._color = color;
-        this.preRender();
+        this.render();
     }
     protected _clickAction: Function = () => {/*do nothing*/}
     get clickAction(): Function{
@@ -31,12 +31,12 @@ export class DebugViewObject extends ClickableViewObject{
     }
 
     public constructor(x: number, y: number, width: number, height: number, angle: number, subject: Dimensionable, strategy: DrawingStrategy){
-        super(x,y,width,height,angle, strategy,null,null);
+        super(x,y,width,height,angle,strategy,null);
         this.subject = subject;
         this.color = "#FF1493";
     }
 
-    protected preRender() {
+    protected render() {
         this.context.beginPath();
         this.context.fillStyle = this.color;
         this.context.rect(0,0,this.width,this.height); 

@@ -1,6 +1,7 @@
 import { ReferenceManager } from './ReferenceManager';
 import { IViewService } from './IViewService';
-import { IViewObject } from '../ViewObjects/ViewObject.interface';
+import { IViewObject } from '../ViewObjects/IViewObject';
+import { ComposableView } from '../ViewComposition/ComposableView';
 
 export class RenderEngine{
 
@@ -69,7 +70,7 @@ export class RenderEngine{
     * updates all of the view objects
     */
     private tick(){
-        this.observers.forEach((obj: IViewObject, index) => obj.render(this.context, this.canvas.width, this.canvas.height));
+        this.observers.forEach((obj: IViewObject, index) => obj.draw(this.context, this.canvas.width, this.canvas.height));
     }
 
     /*
@@ -86,9 +87,11 @@ export class RenderEngine{
         this.observers = this.observers.filter( observer => {
             if(observer != obj) return observer;
         });
-        this.observers.forEach(observer => {
-            observer.remove(obj);
-        })
+        if(obj instanceof ComposableView){ //TODO: this code needs to be tested
+            this.observers.forEach(observer => {
+                (observer as ComposableView).remove(obj);
+            })
+        }
         this.services.forEach(service => {
             service.remove(obj);
         });

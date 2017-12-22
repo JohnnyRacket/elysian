@@ -1,4 +1,4 @@
-import {IObserver} from './Observer.interface'
+import {IObserver} from './IObserver'
 export interface IObservable{
     register(obj: IObserver);
     unregister(obj: IObserver);
