@@ -9,7 +9,5 @@ export class ImageViewObject extends ClickableViewObject{
         throw new Error("Method not implemented.");
     }
     protected _callback: Function;
-    
-
 
 }

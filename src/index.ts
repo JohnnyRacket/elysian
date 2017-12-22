@@ -1,7 +1,7 @@
 import { GameEngine } from "./Engines/GameEngine";
 import { RenderEngine } from "./Engines/RenderEngine";
 import { CollisionManager } from "./Engines/CollisionManager";
-import { ClickableManager } from "./Engines/ClickableManager";
+import { InputEngine } from "./Engines/ClickableManager";
 import { ActiveObject } from "./ExposedObjects/ActiveObject";
 import { BackgroundObject } from "./ExposedObjects/BackgroundObject";
 import { TextViewObject} from "./ExposedObjects/TextViewObject";
@@ -12,7 +12,7 @@ let Elysian = {
     GameEngine: GameEngine.getInstance(),
     RenderEngine: RenderEngine.getInstance(),
     CollisionManager: CollisionManager.getInstance(),
-    ClickHandler: ClickableManager.getInstance(),
+    ClickHandler: InputEngine.getInstance(),
 
     GameObjects: {
         ActiveObject: ActiveObject,

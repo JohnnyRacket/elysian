@@ -57,7 +57,6 @@ export class RenderEngine{
     * for visuals we will rely on the screenrefreshrate from the browser
     */
     private run(){
-        //do the timing and call tick a lot
         if(this.isRunning){
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.tick();

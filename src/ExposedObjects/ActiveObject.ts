@@ -9,15 +9,13 @@ import { Hitbox } from "../Collisions/Hitbox";
 
 export class ActiveObject extends CollidableGameObject{
 
-    public collisionFunction: Function = () => {/*do nothing*/};
-    public updateFunction: Function = () => {/*do nothing*/};
+    public collision: Function = (object: CollidableGameObject) => {/*do nothing*/};
+    public run: Function = () => {/*do nothing*/};
     public viewObject: ClickableViewObject;
-
-    public isMoving: boolean = false;
-    public isColliding: boolean = false;
 
     constructor(x: number, y: number, width: number, height: number, angle: number, type: string){
         super(x,y,width,height,type);
+        if(!type) this.type = 'generic'; //assign type of generic if type is left null;
         this.angle = angle;
         this.viewObject = new DebugViewObject(x,y,width,height,0,this,new CenterDrawingStrategy());
         RenderEngine.getInstance().register(this.viewObject);
@@ -26,11 +24,11 @@ export class ActiveObject extends CollidableGameObject{
     }
 
     collide(object: CollidableGameObject) {
-        this.collisionFunction();
+        this.collision(object);
     }
 
     tick() {
-        this.updateFunction();
+        this.run();
     }
 
     dispose(){//remove all object references to free up for GC

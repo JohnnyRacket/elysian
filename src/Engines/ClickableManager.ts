@@ -1,9 +1,9 @@
-import { RenderEngine } from './RenderEngine';
+import { RenderEngine } from '../Engines/RenderEngine';
 import { ClickHandler } from '../Clickables/ClickHandlers/ClickHandler';
 import { IViewService } from './IViewService';
 import { Clickable } from '../Clickables/Clickable';
 
-export class ClickableManager implements IViewService{
+export class InputMapper implements IViewService{
 
     private clickables: Clickable[] = [];
     public clickInterceptor: ClickHandler;
@@ -15,20 +15,20 @@ export class ClickableManager implements IViewService{
         },false);
     }
 
-    private static _instance: ClickableManager = new ClickableManager();
+    private static _instance: InputMapper = new InputMapper();
     
       private constructor() {
-          if(ClickableManager._instance){
+          if(InputMapper._instance){
               throw new Error("Error: Instantiation failed: Use ClickableManager.getInstance() instead of new.");
           }
-          ClickableManager._instance = this;
+          InputMapper._instance = this;
           //this.register(this.collisionManager);
           //add collision manager to the ticks, add functions for adding and removing stuff
       }
    
-      public static getInstance(): ClickableManager
+      public static getInstance(): InputMapper
       {
-          return ClickableManager._instance;
+          return InputMapper._instance;
       }
 
 

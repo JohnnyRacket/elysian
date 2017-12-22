@@ -1,7 +1,7 @@
 import { RenderEngine } from "./RenderEngine";
 import { GameEngine } from "./GameEngine";
 import { CollisionManager } from "./CollisionManager";
-import { ClickableManager } from "./ClickableManager";
+import { InputEngine } from "./ClickableManager";
 
 export class Bootstrap{
 
@@ -16,7 +16,7 @@ export class Bootstrap{
 
 
         const collisionManager = CollisionManager.getInstance();
-        const clickableManager = ClickableManager.getInstance();
+        const clickableManager = InputEngine.getInstance();
         clickableManager.canvas = canvas;
         
         let scale = 1;

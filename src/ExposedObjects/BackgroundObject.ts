@@ -9,8 +9,8 @@ import { Hitbox } from "../Collisions/Hitbox";
 
 export class BackgroundObject extends CollidableGameObject{
 
-    public collisionFunction: Function = () => {/*do nothing*/};
-    public updateFunction: Function = () => {/*do nothing*/};
+    public collision: Function = (object: CollidableGameObject) => {/*do nothing*/};
+    public run: Function = () => {/*do nothing*/};
     public viewObject: ClickableViewObject;
 
     constructor(x: number, y: number, width: number, height: number, angle: number, type: string){
@@ -23,11 +23,11 @@ export class BackgroundObject extends CollidableGameObject{
     }
 
     collide(object: CollidableGameObject) {
-        this.collisionFunction();
+        this.collision(object);
     }
 
     tick() {
-        this.updateFunction();
+        this.run();
     }
     
     dispose(){//remove all object references to free up for GC
