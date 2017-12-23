@@ -3,6 +3,7 @@ import { GameEngine } from "./GameEngine";
 import { CollisionManager } from "./CollisionManager";
 import { InputMapper } from "./InputMapper";
 
+
 export class Bootstrap{
 
       public static create(canvasId: string, width: number, height: number){
@@ -16,8 +17,8 @@ export class Bootstrap{
 
 
         const collisionManager = CollisionManager.getInstance();
-        const clickableManager = InputMapper.getInstance();
-        clickableManager.canvas = canvas;
+        const inputMapper = InputMapper.getInstance();
+        inputMapper.canvas = canvas;
         
         let scale = 1;
         function resize(){
@@ -39,7 +40,7 @@ export class Bootstrap{
         renderEngine.setCanvas(canvas, context);
 
         gameEngine.addService(collisionManager);
-        renderEngine.addService(clickableManager);
+        renderEngine.addService(inputMapper);
 
         renderEngine.start();
         gameEngine.start();

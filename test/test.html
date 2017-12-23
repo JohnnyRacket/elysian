@@ -5,7 +5,7 @@
     <title>Test Canvas</title>
     <style>
     	* { padding: 0; margin: 0; }
-    	canvas { background: #aaa; display: block; margin: 0 auto; height: 200px; width: 900px;}
+    	canvas { background: #aaa; display: block; margin: 0 auto; height: 500px; width: 500px;}
         html, body { height: 100%; width: 100%;}
     </style>
 </head>
@@ -15,19 +15,21 @@
 
 <script src="../dist/elysian.js"></script>
 <script>
-    elysian.create("myCanvas", 900, 200);
-    var obj =  new elysian.GameObjects.ActiveObject(512,64,1024,128,0,'test');
-    elysian.GameEngine.register(obj);
-    var context = obj.viewObject.context;
-    context.webkitImageSmoothingEnabled = false;
-context.mozImageSmoothingEnabled = false;
-context.imageSmoothingEnabled = false; /// future
-    var drawing = new Image();
-    drawing.src = "backdrop.png"
-    drawing.onload = function() {
-        context.drawImage(drawing, 0, 0, 1024, 128);
+    elysian.create("myCanvas", 500, 500);
+    console.log(elysian);
+    let test = new elysian.ViewObjects.ImageViewObject(100,100,100,100,0,null,null,'backdrop.png');
+//     var obj =  new elysian.GameObjects.ActiveObject(512,64,1024,128,0,'test');
+//     elysian.GameEngine.register(obj);
+//     var context = obj.viewObject.context;
+//     context.webkitImageSmoothingEnabled = false;
+// context.mozImageSmoothingEnabled = false;
+// context.imageSmoothingEnabled = false; /// future
+//     var drawing = new Image();
+//     drawing.src = "backdrop.png"
+//     drawing.onload = function() {
+//         context.drawImage(drawing, 0, 0, 1024, 128);
     
-      };
+//       };
 
     //   var canvas = document.createElement('canvas');
     //   obj.viewObject.canvas = canvas;

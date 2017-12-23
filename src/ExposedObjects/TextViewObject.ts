@@ -1,5 +1,6 @@
 import { ClickableViewObject } from "../ViewObjects/ClickableViewObject";
 import { DrawingStrategy } from "../DrawingStrategies/DrawingStrategy";
+import { RenderEngine } from "../Engines/RenderEngine";
 
 export class TextViewObject extends ClickableViewObject{
 
@@ -41,6 +42,7 @@ export class TextViewObject extends ClickableViewObject{
         super(x,y,width,height,angle,drawingStratgegy,callback);
         this.text = text;
         this.render();
+        RenderEngine.getInstance().register(this);
     } 
 
     protected render() {
