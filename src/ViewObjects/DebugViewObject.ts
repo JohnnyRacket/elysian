@@ -45,6 +45,9 @@ export class DebugViewObject extends ClickableViewObject{
     update() {
         this.height = this.subject.height;
         this.width = this.subject.width;
+        this.x = this.subject.x;
+        this.y = this.subject.y;
+        //TODO: add a thing for angle;
     }
 
 }

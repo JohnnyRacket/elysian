@@ -12,6 +12,7 @@ export abstract class PositionableGameObject extends ObservableGameObject{
     }
     set angle(angle: number){
         this._angle = angle;
+        this.updateObservers(); /* update observers of changes */
     }
 
     public constructor(x: number, y: number, width: number, height: number){

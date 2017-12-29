@@ -26,16 +26,26 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
         return this._width;
     }
     set width(width: number){
-        this._width = width;
-        if(this.canvas) this.canvas.width = width;
+        if(width != this.width){
+            this._width = width;
+            if(this.canvas){
+                this.canvas.width = width;
+                this.render();
+            } 
+        }
     }
     protected _height: number;
     get height(): number{
         return this._height;
     }
     set height(height: number){
-        this._height = height;
-        if(this.canvas) this.canvas.height = height;
+        if(this.height != height){
+            this._height = height;
+            if(this.canvas){
+                this.canvas.height = height;
+                this.render();
+            } 
+        }
     }
 
     protected _canvas: HTMLCanvasElement;
@@ -76,7 +86,6 @@ export abstract class DoubleBufferedViewObject extends ComposableViewObject{
     protected abstract render();
 
     public draw(context: CanvasRenderingContext2D, width: number, height: number){
-
         context.save();
 
         context.translate(this.x, this.y);

@@ -17,7 +17,19 @@
 <script>
     elysian.create("myCanvas", 500, 500);
     console.log(elysian);
-    let test = new elysian.ViewObjects.ImageViewObject(100,100,100,100,0,null,null,'backdrop.png');
+    let char = new elysian.GameObjects.ActiveObject(100,100,32,32,0,'test');
+    char.input = function(){
+        window.addEventListener('keydown', (event) => {
+            if(event.keyCode == 39){
+                char.x +=1;
+            }
+            if(event.keyCode == 37){
+                char.x -=1;
+            }
+            
+        }, false);   
+    }
+    //let test = new elysian.ViewObjects.ImageViewObject(100,100,100,100,0,null,null,'backdrop.png');
 //     var obj =  new elysian.GameObjects.ActiveObject(512,64,1024,128,0,'test');
 //     elysian.GameEngine.register(obj);
 //     var context = obj.viewObject.context;

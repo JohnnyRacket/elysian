@@ -715,6 +715,9 @@ var DebugViewObject = /** @class */ (function (_super) {
     DebugViewObject.prototype.update = function () {
         this.height = this.subject.height;
         this.width = this.subject.width;
+        this.x = this.subject.x;
+        this.y = this.subject.y;
+        //TODO: add a thing for angle;
     };
     return DebugViewObject;
 }(ClickableViewObject_1.ClickableViewObject));
@@ -1039,11 +1042,24 @@ var ActiveObject = /** @class */ (function (_super) {
             _this.type = 'generic'; //assign type of generic if type is left null;
         _this.angle = angle;
         _this.viewObject = new DebugViewObject_1.DebugViewObject(x, y, width, height, 0, _this, new CenterDrawingStrategy_1.CenterDrawingStrategy());
+        _this.observers.push(_this.viewObject);
         RenderEngine_1.RenderEngine.getInstance().register(_this.viewObject);
         CollisionManager_1.CollisionManager.getInstance().addActiveHitbox(new Hitbox_1.Hitbox(width, height, _this));
         GameEngine_1.GameEngine.getInstance().register(_this);
         return _this;
     }
+    Object.defineProperty(ActiveObject.prototype, "input", {
+        get: function () {
+            return this._input;
+        },
+        set: function (func) {
+            console.log("setting the inputs");
+            this._input = func;
+            this._input();
+        },
+        enumerable: true,
+        configurable: true
+    });
     ActiveObject.prototype.collide = function (object) {
         this.collision(object);
     };
@@ -1095,6 +1111,7 @@ var PositionableGameObject = /** @class */ (function (_super) {
         },
         set: function (angle) {
             this._angle = angle;
+            this.updateObservers(); /* update observers of changes */
         },
         enumerable: true,
         configurable: true
@@ -1155,6 +1172,58 @@ var ObservableGameObject = /** @class */ (function (_super) {
     ObservableGameObject.prototype.updateObserversOfDispose = function () {
         this.observers.forEach(function (obj, index) { return obj.observableDisposed(); });
     };
+    Object.defineProperty(ObservableGameObject.prototype, "x", {
+        get: function () {
+            return this._x;
+        },
+        set: function (x) {
+            if (this.x != x) {
+                this._x = x;
+                this.updateObservers();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ObservableGameObject.prototype, "y", {
+        get: function () {
+            return this._y;
+        },
+        set: function (y) {
+            if (this.y != y) {
+                this._y = y;
+                this.updateObservers();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ObservableGameObject.prototype, "width", {
+        get: function () {
+            return this._width;
+        },
+        set: function (width) {
+            if (this.width != width) {
+                this._width = width;
+                this.updateObservers();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ObservableGameObject.prototype, "height", {
+        get: function () {
+            return this._height;
+        },
+        set: function (height) {
+            if (this.height != height) {
+                this._height = height;
+                this.updateObservers();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ObservableGameObject;
 }(Dimensionable_1.Dimensionable));
 exports.ObservableGameObject = ObservableGameObject;
@@ -1220,9 +1289,13 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
             return this._width;
         },
         set: function (width) {
-            this._width = width;
-            if (this.canvas)
-                this.canvas.width = width;
+            if (width != this.width) {
+                this._width = width;
+                if (this.canvas) {
+                    this.canvas.width = width;
+                    this.render();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -1232,9 +1305,13 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
             return this._height;
         },
         set: function (height) {
-            this._height = height;
-            if (this.canvas)
-                this.canvas.height = height;
+            if (this.height != height) {
+                this._height = height;
+                if (this.canvas) {
+                    this.canvas.height = height;
+                    this.render();
+                }
+            }
         },
         enumerable: true,
         configurable: true
