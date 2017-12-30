@@ -3,8 +3,9 @@ import { Rotateable } from "../Shared/Rotatable";
 import { IObservable } from "../Observables/IObservable";
 import { PositionableGameObject } from "../GameObjects/PositionableGameObject";
 import { ObservableSubject } from "../Observables/ObservableSubject";
+import { InterpolatedViewObject } from "./InterpolatedViewObject";
 
-export abstract class AttachableViewObject extends DoubleBufferedViewObject{
+export abstract class AttachableViewObject extends InterpolatedViewObject{
 
     protected _subject: IObservable;
     get subject(): IObservable{
