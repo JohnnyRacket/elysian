@@ -2,6 +2,8 @@ import { ReferenceManager } from './ReferenceManager';
 import { IViewService } from './IViewService';
 import { IViewObject } from '../ViewObjects/IViewObject';
 import { ComposableView } from '../ViewComposition/ComposableView';
+import { ICamera } from '../Camera/ICamera';
+import { FixedCamera } from '../Camera/FixedCamera';
 
 export class RenderEngine{
 
@@ -12,6 +14,9 @@ export class RenderEngine{
     private canvas: HTMLCanvasElement;
     private referenceManager: ReferenceManager =  new ReferenceManager();
     private _scale: number = 1;
+
+    public camera: ICamera = new FixedCamera();
+
     public get scale(): number{
         return this._scale;
     }
@@ -69,6 +74,7 @@ export class RenderEngine{
     * updates all of the view objects
     */
     private tick(){
+        //this.camera.draw();
         this.observers.forEach((obj: IViewObject, index) => obj.draw(this.context, this.canvas.width, this.canvas.height));
     }
 

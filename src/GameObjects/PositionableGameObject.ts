@@ -5,16 +5,6 @@ import { IObserver } from "../Observables/IObserver";
 
 export abstract class PositionableGameObject extends ObservableGameObject{
 
-    
-    protected _angle: number = 0;
-    get angle(): number{
-        return this._angle;
-    }
-    set angle(angle: number){
-        this._angle = angle;
-        this.updateObservers(); /* update observers of changes */
-    }
-
     public constructor(x: number, y: number, width: number, height: number){
         super();
         this.x = x;

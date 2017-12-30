@@ -2,7 +2,8 @@ import { DrawingStrategy } from '../DrawingStrategies/DrawingStrategy';
 import { ClickStrategy } from '../Clickables/ClickStrategy';
 import { Clickable } from '../Clickables/Clickable';
 import { DoubleBufferedViewObject } from '../ViewObjects/DoubleBufferedViewObject';
-export abstract class ClickableViewObject extends DoubleBufferedViewObject implements Clickable {
+import { AttachableViewObject } from './AttachableViewObject';
+export abstract class ClickableViewObject extends AttachableViewObject implements Clickable {
 
 
     protected _callback: Function;

@@ -1,7 +1,8 @@
 import { RenderEngine } from '../Engines/RenderEngine';
 import { IViewObject } from './IViewObject';
 import { Dimensionable } from "../Shared/Dimensionable";
-export abstract class ComposableViewObject extends Dimensionable implements IViewObject {
+import { Rotateable } from '../Shared/Rotatable';
+export abstract class ComposableViewObject extends Rotateable implements IViewObject {
 
     protected _parent: ComposableViewObject;
     public get parent(): ComposableViewObject{

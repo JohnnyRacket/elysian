@@ -82,6 +82,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReferenceManager_1 = __webpack_require__(4);
 var ComposableView_1 = __webpack_require__(14);
+var FixedCamera_1 = __webpack_require__(16);
 var RenderEngine = /** @class */ (function () {
     function RenderEngine() {
         this.observers = [];
@@ -89,6 +90,7 @@ var RenderEngine = /** @class */ (function () {
         this.isRunning = false;
         this.referenceManager = new ReferenceManager_1.ReferenceManager();
         this._scale = 1;
+        this.camera = new FixedCamera_1.FixedCamera();
         if (RenderEngine._instance) {
             throw new Error("Error: Instantiation failed: Use GameEngine.getInstance() instead of new.");
         }
@@ -142,6 +144,7 @@ var RenderEngine = /** @class */ (function () {
     */
     RenderEngine.prototype.tick = function () {
         var _this = this;
+        //this.camera.draw();
         this.observers.forEach(function (obj, index) { return obj.draw(_this.context, _this.canvas.width, _this.canvas.height); });
     };
     /*
@@ -413,7 +416,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var DoubleBufferedViewObject_1 = __webpack_require__(18);
+var AttachableViewObject_1 = __webpack_require__(20);
 var ClickableViewObject = /** @class */ (function (_super) {
     __extends(ClickableViewObject, _super);
     function ClickableViewObject(x, y, width, height, angle, drawingStrategy, callback) {
@@ -450,7 +453,7 @@ var ClickableViewObject = /** @class */ (function (_super) {
         return this.height;
     };
     return ClickableViewObject;
-}(DoubleBufferedViewObject_1.DoubleBufferedViewObject));
+}(AttachableViewObject_1.AttachableViewObject));
 exports.ClickableViewObject = ClickableViewObject;
 
 
@@ -508,7 +511,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var RenderEngine_1 = __webpack_require__(0);
-var Dimensionable_1 = __webpack_require__(6);
+var Rotatable_1 = __webpack_require__(6);
 var ComposableViewObject = /** @class */ (function (_super) {
     __extends(ComposableViewObject, _super);
     function ComposableViewObject() {
@@ -547,7 +550,7 @@ var ComposableViewObject = /** @class */ (function (_super) {
         //do nothing (this is a leaf object in the composition by default, override it if not)
     };
     return ComposableViewObject;
-}(Dimensionable_1.Dimensionable));
+}(Rotatable_1.Rotateable));
 exports.ComposableViewObject = ComposableViewObject;
 
 
@@ -557,53 +560,38 @@ exports.ComposableViewObject = ComposableViewObject;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dimensionable = /** @class */ (function () {
-    function Dimensionable() {
+var Dimensionable_1 = __webpack_require__(15);
+var Rotateable = /** @class */ (function (_super) {
+    __extends(Rotateable, _super);
+    function Rotateable() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this._angle = 0;
+        return _this;
     }
-    Object.defineProperty(Dimensionable.prototype, "x", {
+    Object.defineProperty(Rotateable.prototype, "angle", {
         get: function () {
-            return this._x;
+            return this._angle;
         },
-        set: function (x) {
-            this._x = x;
+        set: function (angle) {
+            this._angle = angle;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Dimensionable.prototype, "y", {
-        get: function () {
-            return this._y;
-        },
-        set: function (y) {
-            this._y = y;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dimensionable.prototype, "width", {
-        get: function () {
-            return this._width;
-        },
-        set: function (width) {
-            this._width = width;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Dimensionable.prototype, "height", {
-        get: function () {
-            return this._height;
-        },
-        set: function (height) {
-            this._height = height;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Dimensionable;
-}());
-exports.Dimensionable = Dimensionable;
+    return Rotateable;
+}(Dimensionable_1.Dimensionable));
+exports.Rotateable = Rotateable;
 
 
 /***/ }),
@@ -623,7 +611,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var PositionableGameObject_1 = __webpack_require__(16);
+var PositionableGameObject_1 = __webpack_require__(18);
 var CollidableGameObject = /** @class */ (function (_super) {
     __extends(CollidableGameObject, _super);
     function CollidableGameObject(x, y, width, height, type) {
@@ -675,16 +663,6 @@ var DebugViewObject = /** @class */ (function (_super) {
     DebugViewObject.prototype.hover = function () {
         throw new Error("Method not implemented.");
     };
-    Object.defineProperty(DebugViewObject.prototype, "subject", {
-        get: function () {
-            return this._subject;
-        },
-        set: function (subject) {
-            this._subject = subject;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(DebugViewObject.prototype, "color", {
         get: function () {
             return this._color;
@@ -711,13 +689,6 @@ var DebugViewObject = /** @class */ (function (_super) {
         this.context.fillStyle = this.color;
         this.context.rect(0, 0, this.width, this.height);
         this.context.fill();
-    };
-    DebugViewObject.prototype.update = function () {
-        this.height = this.subject.height;
-        this.width = this.subject.width;
-        this.x = this.subject.x;
-        this.y = this.subject.y;
-        //TODO: add a thing for angle;
     };
     return DebugViewObject;
 }(ClickableViewObject_1.ClickableViewObject));
@@ -905,11 +876,11 @@ exports.InputMapper = InputMapper;
 var GameEngine_1 = __webpack_require__(1);
 var RenderEngine_1 = __webpack_require__(0);
 var CollisionManager_1 = __webpack_require__(2);
-var ActiveObject_1 = __webpack_require__(15);
-var BackgroundObject_1 = __webpack_require__(19);
-var TextViewObject_1 = __webpack_require__(20);
-var Bootstrap_1 = __webpack_require__(21);
-var ImageViewObject_1 = __webpack_require__(22);
+var ActiveObject_1 = __webpack_require__(17);
+var BackgroundObject_1 = __webpack_require__(22);
+var TextViewObject_1 = __webpack_require__(23);
+var Bootstrap_1 = __webpack_require__(24);
+var ImageViewObject_1 = __webpack_require__(25);
 var InputMapper_1 = __webpack_require__(11);
 var Elysian = {
     GameEngine: GameEngine_1.GameEngine.getInstance(),
@@ -1014,6 +985,83 @@ exports.ComposableView = ComposableView;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var Dimensionable = /** @class */ (function () {
+    function Dimensionable() {
+        this._x = 0;
+        this._y = 0;
+        this._width = 0;
+        this._height = 0;
+    }
+    Object.defineProperty(Dimensionable.prototype, "x", {
+        get: function () {
+            return this._x;
+        },
+        set: function (x) {
+            this._x = x;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Dimensionable.prototype, "y", {
+        get: function () {
+            return this._y;
+        },
+        set: function (y) {
+            this._y = y;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Dimensionable.prototype, "width", {
+        get: function () {
+            return this._width;
+        },
+        set: function (width) {
+            this._width = width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Dimensionable.prototype, "height", {
+        get: function () {
+            return this._height;
+        },
+        set: function (height) {
+            this._height = height;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return Dimensionable;
+}());
+exports.Dimensionable = Dimensionable;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var FixedCamera = /** @class */ (function () {
+    function FixedCamera() {
+    }
+    FixedCamera.prototype.draw = function () {
+        throw new Error("Method not implemented.");
+    };
+    return FixedCamera;
+}());
+exports.FixedCamera = FixedCamera;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1077,7 +1125,7 @@ exports.ActiveObject = ActiveObject;
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1093,29 +1141,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ObservableGameObject_1 = __webpack_require__(17);
+var ObservableGameObject_1 = __webpack_require__(19);
 var PositionableGameObject = /** @class */ (function (_super) {
     __extends(PositionableGameObject, _super);
     function PositionableGameObject(x, y, width, height) {
         var _this = _super.call(this) || this;
-        _this._angle = 0;
         _this.x = x;
         _this.y = y;
         _this.width = width;
         _this.height = height;
         return _this;
     }
-    Object.defineProperty(PositionableGameObject.prototype, "angle", {
-        get: function () {
-            return this._angle;
-        },
-        set: function (angle) {
-            this._angle = angle;
-            this.updateObservers(); /* update observers of changes */
-        },
-        enumerable: true,
-        configurable: true
-    });
     PositionableGameObject.prototype.setSize = function (width, height) {
         this.width = width;
         this.height = height;
@@ -1130,7 +1166,7 @@ exports.PositionableGameObject = PositionableGameObject;
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1146,12 +1182,13 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dimensionable_1 = __webpack_require__(6);
+var Rotatable_1 = __webpack_require__(6);
 var ObservableGameObject = /** @class */ (function (_super) {
     __extends(ObservableGameObject, _super);
     function ObservableGameObject() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.observers = [];
+        _this._angle = 0;
         return _this;
     }
     ObservableGameObject.prototype.dispose = function () {
@@ -1224,13 +1261,72 @@ var ObservableGameObject = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ObservableGameObject.prototype, "angle", {
+        get: function () {
+            return this._angle;
+        },
+        set: function (angle) {
+            if (this.angle != angle) {
+                this._angle = angle;
+                this.updateObservers(); /* update observers of changes */
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ObservableGameObject;
-}(Dimensionable_1.Dimensionable));
+}(Rotatable_1.Rotateable));
 exports.ObservableGameObject = ObservableGameObject;
 
 
 /***/ }),
-/* 18 */
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var DoubleBufferedViewObject_1 = __webpack_require__(21);
+var AttachableViewObject = /** @class */ (function (_super) {
+    __extends(AttachableViewObject, _super);
+    function AttachableViewObject() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(AttachableViewObject.prototype, "subject", {
+        get: function () {
+            return this._subject;
+        },
+        set: function (subject) {
+            this._subject = subject;
+            this.subject.register(this);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AttachableViewObject.prototype.update = function () {
+        this.x = this.subject.x;
+        this.y = this.subject.y;
+        this.width = this.subject.width;
+        this.height = this.subject.height;
+        this.angle = this.subject.angle;
+    };
+    return AttachableViewObject;
+}(DoubleBufferedViewObject_1.DoubleBufferedViewObject));
+exports.AttachableViewObject = AttachableViewObject;
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1264,16 +1360,6 @@ var DoubleBufferedViewObject = /** @class */ (function (_super) {
         _this.render();
         return _this;
     }
-    Object.defineProperty(DoubleBufferedViewObject.prototype, "angle", {
-        get: function () {
-            return this._angle;
-        },
-        set: function (angle) {
-            this._angle = angle;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(DoubleBufferedViewObject.prototype, "drawingStrategy", {
         get: function () {
             return this._drawingStrategy;
@@ -1370,7 +1456,7 @@ exports.DoubleBufferedViewObject = DoubleBufferedViewObject;
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1423,7 +1509,7 @@ exports.BackgroundObject = BackgroundObject;
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1522,7 +1608,7 @@ exports.TextViewObject = TextViewObject;
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1572,7 +1658,7 @@ exports.Bootstrap = Bootstrap;
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1590,7 +1676,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var ClickableViewObject_1 = __webpack_require__(3);
 var RenderEngine_1 = __webpack_require__(0);
-var TopLeftDrawingStrategy_1 = __webpack_require__(23);
+var TopLeftDrawingStrategy_1 = __webpack_require__(26);
 var ImageViewObject = /** @class */ (function (_super) {
     __extends(ImageViewObject, _super);
     function ImageViewObject(x, y, width, height, angle, drawingStrategy, callback, imgSource) {
@@ -1626,7 +1712,7 @@ exports.ImageViewObject = ImageViewObject;
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

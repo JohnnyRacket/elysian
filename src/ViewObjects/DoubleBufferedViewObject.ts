@@ -5,14 +5,6 @@ import { IViewObject } from './IViewObject';
 
 export abstract class DoubleBufferedViewObject extends ComposableViewObject{
 
-    protected _angle;
-    get angle(): number{
-        return this._angle;
-    }
-    set angle(angle: number){
-        this._angle = angle;
-    }
-
     protected _drawingStrategy: DrawingStrategy;
     get drawingStrategy(): DrawingStrategy{
         return this._drawingStrategy;

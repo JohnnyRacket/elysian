@@ -3,9 +3,10 @@ import { IObserver } from '../Observables/IObserver';
 import { Observable } from '../Observables/Observable';
 import { IGameObject } from './IGameObject';
 import { IObservable } from '../Observables/IObservable';
+import { Rotateable } from '../Shared/Rotatable';
 
 
-export abstract class ObservableGameObject extends Dimensionable implements IGameObject, IObservable{
+export abstract class ObservableGameObject extends Rotateable implements IGameObject, IObservable{
     abstract tick();
     public dispose(){
         this.updateObserversOfDispose();
@@ -70,6 +71,17 @@ export abstract class ObservableGameObject extends Dimensionable implements IGam
             if(this.height != height){//only update observers if there is an actual change!
                 this._height = height;
                 this.updateObservers();
+            }
+        }
+
+        protected _angle: number = 0;
+        get angle(): number{
+            return this._angle;
+        }
+        set angle(angle: number){
+            if(this.angle != angle){//only update observers if there is an actual change!
+                this._angle = angle;
+                this.updateObservers(); /* update observers of changes */
             }
         }
     
