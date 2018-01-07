@@ -1,6 +1,6 @@
 {
   "name": "elysian",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A lightweight HTML5 Canvas/JS game engine made in TypeScript",
   "main": "dist/elysian.js",
   "author": "John Harrison",
