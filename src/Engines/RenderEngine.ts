@@ -7,7 +7,6 @@ import { FixedCamera } from '../Camera/FixedCamera';
 
 export class RenderEngine{
 
-    private observers: IViewObject[] = [];
     private services: IViewService[] = [];
     private isRunning: boolean = false;
     private context: CanvasRenderingContext2D;
@@ -47,7 +46,7 @@ export class RenderEngine{
     */
     public start(){
         this.isRunning = true;
-        requestAnimationFrame(() => {this.run();});
+        requestAnimationFrame( () => { this.run(); } );
     }
 
     /*
@@ -75,25 +74,25 @@ export class RenderEngine{
     */
     private tick(){
         //this.camera.draw();
-        this.observers.forEach((obj: IViewObject, index) => obj.draw(this.context, this.canvas.width, this.canvas.height));
+        this.camera.draw(this.context, this.canvas.width, this.canvas.height);
     }
 
     /*
     * register a view object to be updated by the game engine
     */
     public register(obj: IViewObject){
-        this.observers.push(obj);
+        this.activeViewObjects.push(obj);
     }
 
     /*
     * unregister a view object to be updated by the game engine
     */
     public unregister(obj: IViewObject){
-        this.observers = this.observers.filter( observer => {
+        this.activeViewObjects = this.activeViewObjects.filter( observer => {
             if(observer != obj) return observer;
         });
         if(obj instanceof ComposableView){ //TODO: this code needs to be tested
-            this.observers.forEach(observer => {
+            this.activeViewObjects.forEach(observer => {
                 (observer as ComposableView).remove(obj);
             })
         }

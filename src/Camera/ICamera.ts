@@ -1,3 +1,4 @@
 export interface ICamera{
-    draw();
+    draw(context: CanvasRenderingContext2D, width: number, height: number);
+    
 }
