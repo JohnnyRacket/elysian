@@ -28,7 +28,7 @@ export class ActiveObject extends CollidableGameObject{
         this.angle = angle;
         this.viewObject = new DebugViewObject(x,y,width,height,0,this,new CenterDrawingStrategy());
         this.observers.push(this.viewObject);
-        RenderEngine.getInstance().register(this.viewObject);
+        RenderEngine.getInstance().camera.addActiveObject(this.viewObject);
         CollisionManager.getInstance().addActiveHitbox(new Hitbox(width, height, this));
         GameEngine.getInstance().register(this);
     }

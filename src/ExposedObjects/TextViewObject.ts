@@ -42,7 +42,7 @@ export class TextViewObject extends ClickableViewObject{
         super(x,y,width,height,angle,drawingStratgegy,callback);
         this.text = text;
         this.render();
-        RenderEngine.getInstance().register(this);
+        RenderEngine.getInstance().camera.addBackgroundObject(this);
     } 
 
     protected render() {

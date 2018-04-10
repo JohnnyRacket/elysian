@@ -15,7 +15,7 @@ export class ImageViewObject extends ClickableViewObject{
         if(!drawingStrategy) this.drawingStrategy = new TopLeftDrawingStrategy();
         this.imgSource = imgSource;
         this.render();
-        RenderEngine.getInstance().register(this);
+        RenderEngine.getInstance().camera.addActiveObject(this);//TODO this is dumb, needs a way to choose active vs passive
     }
 
     protected render() {

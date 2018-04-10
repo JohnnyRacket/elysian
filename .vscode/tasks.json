@@ -11,8 +11,7 @@
                 "isShellCommand": true,
                 "command": ".\\node_modules\\.bin\\webpack"
             },
-            "command": "./node_modules/.bin/webpack",
-            "args": [""]
+            "command": "./node_modules/.bin/webpack"
         }
     ]
     

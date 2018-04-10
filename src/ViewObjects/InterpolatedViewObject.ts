@@ -9,7 +9,7 @@ export abstract class InterpolatedViewObject extends DoubleBufferedViewObject{
     protected laggingHeight: number = 0;
     protected laggingAngle: number = 0;
 
-    public interpolationSpeed: number = 5;
+    public interpolationSpeed: number = 6;
 
     public constructor(x: number, y: number, width: number, height: number, angle: number, drawingStrategy: DrawingStrategy){
         super(x,y,width,height,angle,drawingStrategy);

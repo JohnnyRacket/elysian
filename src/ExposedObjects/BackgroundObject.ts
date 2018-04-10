@@ -17,7 +17,7 @@ export class BackgroundObject extends CollidableGameObject{
         super(x,y,width,height,type);
         this.angle = angle;
         this.viewObject = new DebugViewObject(x,y,width,height,0,this,new CenterDrawingStrategy());
-        RenderEngine.getInstance().register(this.viewObject);
+        RenderEngine.getInstance().camera.addBackgroundObject(this.viewObject);
         CollisionManager.getInstance().addPassiveHitbox(new Hitbox(width, height, this));
         GameEngine.getInstance().register(this);
     }

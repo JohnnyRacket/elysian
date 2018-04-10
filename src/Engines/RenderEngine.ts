@@ -78,24 +78,9 @@ export class RenderEngine{
     }
 
     /*
-    * register a view object to be updated by the game engine
-    */
-    public register(obj: IViewObject){
-        this.activeViewObjects.push(obj);
-    }
-
-    /*
     * unregister a view object to be updated by the game engine
     */
     public unregister(obj: IViewObject){
-        this.activeViewObjects = this.activeViewObjects.filter( observer => {
-            if(observer != obj) return observer;
-        });
-        if(obj instanceof ComposableView){ //TODO: this code needs to be tested
-            this.activeViewObjects.forEach(observer => {
-                (observer as ComposableView).remove(obj);
-            })
-        }
         this.services.forEach(service => {
             service.remove(obj);
         });

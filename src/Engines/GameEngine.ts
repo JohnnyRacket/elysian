@@ -1,6 +1,8 @@
 import { IModelService } from './IModelService';
 import { ReferenceManager } from './ReferenceManager';
 import { IGameObject } from '../GameObjects/IGameObject';
+import { ExportSave } from '../Exportable/ExportSave';
+import { SaveItem } from '../Exportable/SaveItem';
 
 /*
 * This class is a Singleton
@@ -49,6 +51,10 @@ export class GameEngine{
         //stop looping
         this.isRunning = false;
         clearInterval(this.interval);
+    }
+
+    public save(): SaveItem[]{
+        return ExportSave(this.observers);
     }
 
     /*

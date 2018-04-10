@@ -81,11 +81,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var ReferenceManager_1 = __webpack_require__(4);
-var ComposableView_1 = __webpack_require__(14);
-var FixedCamera_1 = __webpack_require__(16);
+var FixedCamera_1 = __webpack_require__(14);
 var RenderEngine = /** @class */ (function () {
     function RenderEngine() {
-        this.observers = [];
         this.services = [];
         this.isRunning = false;
         this.referenceManager = new ReferenceManager_1.ReferenceManager();
@@ -143,29 +141,13 @@ var RenderEngine = /** @class */ (function () {
     * updates all of the view objects
     */
     RenderEngine.prototype.tick = function () {
-        var _this = this;
         //this.camera.draw();
-        this.observers.forEach(function (obj, index) { return obj.draw(_this.context, _this.canvas.width, _this.canvas.height); });
-    };
-    /*
-    * register a view object to be updated by the game engine
-    */
-    RenderEngine.prototype.register = function (obj) {
-        this.observers.push(obj);
+        this.camera.draw(this.context, this.canvas.width, this.canvas.height);
     };
     /*
     * unregister a view object to be updated by the game engine
     */
     RenderEngine.prototype.unregister = function (obj) {
-        this.observers = this.observers.filter(function (observer) {
-            if (observer != obj)
-                return observer;
-        });
-        if (obj instanceof ComposableView_1.ComposableView) {
-            this.observers.forEach(function (observer) {
-                observer.remove(obj);
-            });
-        }
         this.services.forEach(function (service) {
             service.remove(obj);
         });
@@ -416,7 +398,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var AttachableViewObject_1 = __webpack_require__(20);
+var AttachableViewObject_1 = __webpack_require__(21);
 var ClickableViewObject = /** @class */ (function (_super) {
     __extends(ClickableViewObject, _super);
     function ClickableViewObject(x, y, width, height, angle, drawingStrategy, callback) {
@@ -571,7 +553,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dimensionable_1 = __webpack_require__(15);
+var Dimensionable_1 = __webpack_require__(17);
 var Rotateable = /** @class */ (function (_super) {
     __extends(Rotateable, _super);
     function Rotateable() {
@@ -611,7 +593,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var PositionableGameObject_1 = __webpack_require__(18);
+var PositionableGameObject_1 = __webpack_require__(19);
 var CollidableGameObject = /** @class */ (function (_super) {
     __extends(CollidableGameObject, _super);
     function CollidableGameObject(x, y, width, height, type) {
@@ -876,11 +858,11 @@ exports.InputMapper = InputMapper;
 var GameEngine_1 = __webpack_require__(1);
 var RenderEngine_1 = __webpack_require__(0);
 var CollisionManager_1 = __webpack_require__(2);
-var ActiveObject_1 = __webpack_require__(17);
-var BackgroundObject_1 = __webpack_require__(23);
-var TextViewObject_1 = __webpack_require__(24);
-var Bootstrap_1 = __webpack_require__(25);
-var ImageViewObject_1 = __webpack_require__(26);
+var ActiveObject_1 = __webpack_require__(18);
+var BackgroundObject_1 = __webpack_require__(24);
+var TextViewObject_1 = __webpack_require__(25);
+var Bootstrap_1 = __webpack_require__(26);
+var ImageViewObject_1 = __webpack_require__(27);
 var InputMapper_1 = __webpack_require__(11);
 var Elysian = {
     GameEngine: GameEngine_1.GameEngine.getInstance(),
@@ -920,6 +902,100 @@ exports.StagedReference = StagedReference;
 
 /***/ }),
 /* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Camera_1 = __webpack_require__(15);
+var FixedCamera = /** @class */ (function (_super) {
+    __extends(FixedCamera, _super);
+    function FixedCamera() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    FixedCamera.prototype.draw = function (context, width, height) {
+        this.activeViewObjects.forEach(function (obj, index) { return obj.draw(context, width, height); });
+    };
+    return FixedCamera;
+}(Camera_1.Camera));
+exports.FixedCamera = FixedCamera;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ComposableView_1 = __webpack_require__(16);
+var Camera = /** @class */ (function () {
+    function Camera() {
+        //TODO: add code to re-order objects in case its needed, i.e move forward, move to fornt, to back, backward
+        this.activeViewObjects = [];
+        this.backgroundViewObjects = [];
+    }
+    Camera.prototype.addActiveObject = function (object) { this.activeViewObjects.push(object); };
+    Camera.prototype.addBackgroundObject = function (object) { this.backgroundViewObjects.push(object); };
+    Camera.prototype.removeActiveObject = function (object) {
+        this.activeViewObjects = this.activeViewObjects.filter(function (observer) {
+            if (observer != object)
+                return observer;
+        });
+        if (object instanceof ComposableView_1.ComposableView) {
+            this.activeViewObjects.forEach(function (observer) {
+                observer.remove(object);
+            });
+        }
+    };
+    Camera.prototype.removeBackgroundObject = function (object) {
+        this.backgroundViewObjects = this.backgroundViewObjects.filter(function (observer) {
+            if (observer != object)
+                return observer;
+        });
+        if (object instanceof ComposableView_1.ComposableView) {
+            this.backgroundViewObjects.forEach(function (observer) {
+                observer.remove(object);
+            });
+        }
+    };
+    Camera.prototype.removeObject = function (object) {
+        this.backgroundViewObjects = this.backgroundViewObjects.filter(function (observer) {
+            if (observer != object)
+                return observer;
+        });
+        if (object instanceof ComposableView_1.ComposableView) {
+            this.backgroundViewObjects.forEach(function (observer) {
+                observer.remove(object);
+            });
+        }
+        this.backgroundViewObjects = this.backgroundViewObjects.filter(function (observer) {
+            if (observer != object)
+                return observer;
+        });
+        if (object instanceof ComposableView_1.ComposableView) {
+            this.backgroundViewObjects.forEach(function (observer) {
+                observer.remove(object);
+            });
+        }
+    };
+    return Camera;
+}());
+exports.Camera = Camera;
+
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -980,7 +1056,7 @@ exports.ComposableView = ComposableView;
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1039,25 +1115,7 @@ exports.Dimensionable = Dimensionable;
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var FixedCamera = /** @class */ (function () {
-    function FixedCamera() {
-    }
-    FixedCamera.prototype.draw = function () {
-        throw new Error("Method not implemented.");
-    };
-    return FixedCamera;
-}());
-exports.FixedCamera = FixedCamera;
-
-
-/***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1091,7 +1149,7 @@ var ActiveObject = /** @class */ (function (_super) {
         _this.angle = angle;
         _this.viewObject = new DebugViewObject_1.DebugViewObject(x, y, width, height, 0, _this, new CenterDrawingStrategy_1.CenterDrawingStrategy());
         _this.observers.push(_this.viewObject);
-        RenderEngine_1.RenderEngine.getInstance().register(_this.viewObject);
+        RenderEngine_1.RenderEngine.getInstance().camera.addActiveObject(_this.viewObject);
         CollisionManager_1.CollisionManager.getInstance().addActiveHitbox(new Hitbox_1.Hitbox(width, height, _this));
         GameEngine_1.GameEngine.getInstance().register(_this);
         return _this;
@@ -1125,7 +1183,7 @@ exports.ActiveObject = ActiveObject;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1141,7 +1199,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ObservableGameObject_1 = __webpack_require__(19);
+var ObservableGameObject_1 = __webpack_require__(20);
 var PositionableGameObject = /** @class */ (function (_super) {
     __extends(PositionableGameObject, _super);
     function PositionableGameObject(x, y, width, height) {
@@ -1166,7 +1224,7 @@ exports.PositionableGameObject = PositionableGameObject;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1280,7 +1338,7 @@ exports.ObservableGameObject = ObservableGameObject;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1296,7 +1354,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var InterpolatedViewObject_1 = __webpack_require__(21);
+var InterpolatedViewObject_1 = __webpack_require__(22);
 var AttachableViewObject = /** @class */ (function (_super) {
     __extends(AttachableViewObject, _super);
     function AttachableViewObject() {
@@ -1326,7 +1384,7 @@ exports.AttachableViewObject = AttachableViewObject;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1342,7 +1400,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var DoubleBufferedViewObject_1 = __webpack_require__(22);
+var DoubleBufferedViewObject_1 = __webpack_require__(23);
 var InterpolatedViewObject = /** @class */ (function (_super) {
     __extends(InterpolatedViewObject, _super);
     function InterpolatedViewObject(x, y, width, height, angle, drawingStrategy) {
@@ -1352,7 +1410,7 @@ var InterpolatedViewObject = /** @class */ (function (_super) {
         _this.laggingWidth = 0;
         _this.laggingHeight = 0;
         _this.laggingAngle = 0;
-        _this.interpolationSpeed = 5;
+        _this.interpolationSpeed = 8;
         _this.laggingX = x;
         _this.laggingY = y;
         _this.laggingWidth = width;
@@ -1382,7 +1440,7 @@ exports.InterpolatedViewObject = InterpolatedViewObject;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1512,7 +1570,7 @@ exports.DoubleBufferedViewObject = DoubleBufferedViewObject;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1543,7 +1601,7 @@ var BackgroundObject = /** @class */ (function (_super) {
         _this.run = function () { };
         _this.angle = angle;
         _this.viewObject = new DebugViewObject_1.DebugViewObject(x, y, width, height, 0, _this, new CenterDrawingStrategy_1.CenterDrawingStrategy());
-        RenderEngine_1.RenderEngine.getInstance().register(_this.viewObject);
+        RenderEngine_1.RenderEngine.getInstance().camera.addBackgroundObject(_this.viewObject);
         CollisionManager_1.CollisionManager.getInstance().addPassiveHitbox(new Hitbox_1.Hitbox(width, height, _this));
         GameEngine_1.GameEngine.getInstance().register(_this);
         return _this;
@@ -1565,7 +1623,7 @@ exports.BackgroundObject = BackgroundObject;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1590,7 +1648,7 @@ var TextViewObject = /** @class */ (function (_super) {
         _this.onUpdate = function () { };
         _this.text = text;
         _this.render();
-        RenderEngine_1.RenderEngine.getInstance().register(_this);
+        RenderEngine_1.RenderEngine.getInstance().camera.addBackgroundObject(_this);
         return _this;
     }
     Object.defineProperty(TextViewObject.prototype, "text", {
@@ -1664,7 +1722,7 @@ exports.TextViewObject = TextViewObject;
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1714,7 +1772,7 @@ exports.Bootstrap = Bootstrap;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1732,7 +1790,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var ClickableViewObject_1 = __webpack_require__(3);
 var RenderEngine_1 = __webpack_require__(0);
-var TopLeftDrawingStrategy_1 = __webpack_require__(27);
+var TopLeftDrawingStrategy_1 = __webpack_require__(28);
 var ImageViewObject = /** @class */ (function (_super) {
     __extends(ImageViewObject, _super);
     function ImageViewObject(x, y, width, height, angle, drawingStrategy, callback, imgSource) {
@@ -1743,7 +1801,7 @@ var ImageViewObject = /** @class */ (function (_super) {
             _this.drawingStrategy = new TopLeftDrawingStrategy_1.TopLeftDrawingStrategy();
         _this.imgSource = imgSource;
         _this.render();
-        RenderEngine_1.RenderEngine.getInstance().register(_this);
+        RenderEngine_1.RenderEngine.getInstance().camera.addActiveObject(_this); //TODO this is dumb, needs a way to choose active vs passive
         return _this;
     }
     ImageViewObject.prototype.render = function () {
@@ -1768,7 +1826,7 @@ exports.ImageViewObject = ImageViewObject;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
